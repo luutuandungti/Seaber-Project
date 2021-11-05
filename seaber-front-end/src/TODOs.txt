@@ -1,0 +1,6 @@
+-Status when ship is on the move (Laden, Ballast)
+-Reformat time
+
+- Write Tests
+- Optimization 
+  + Will keep endtime as state hook better than calculating multiple times as startTime + duration?
