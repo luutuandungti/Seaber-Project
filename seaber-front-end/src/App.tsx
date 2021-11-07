@@ -155,6 +155,10 @@ function App() {
 
   return (
     <div>
+      <h1>Example 1</h1>
+      <MyComponent data={Example1} />
+
+      <h1>Example 2</h1>
       <MyComponent data={Example2} />
     </div>
   );

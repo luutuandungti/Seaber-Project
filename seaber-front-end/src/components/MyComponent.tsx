@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import ApiData from '../interfaces/ship_interfaces'
 
 type Event = "Loading" | "Discharging" | "Idle" | "Laden" | "Ballast";
+
+const timeFormat = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
 
 interface Status {
   event: Event,
@@ -17,8 +19,8 @@ function SingleEvent({ status }: { status: Status }) {
       <td>{status.event}</td>
       <td>{status.portName}</td>
       <td>{status.orderId}</td>
-      <td>{new Date(status.start).toString()}</td>
-      <td>{new Date(status.start + status.duration).toString()}</td>
+      <td>{new Date(status.start).toLocaleString('en-US')}</td>
+      <td>{new Date(status.start + status.duration).toLocaleString()}</td>
       <td>{status.duration / 3600000}</td>
     </tr>
   )
@@ -40,7 +42,23 @@ function MyComponent({ data }: { data: ApiData }) {
     let portName = "";
     if (portCall) {
       portName = portCall.portName;
-      startTime = portCall.arrivingAt.getTime();
+
+      //Moving status
+      if (startTime) {
+        const movingEvent: Event = cargos ? "Laden" : "Ballast";
+
+        status.push(<SingleEvent status=
+          {{
+            event: movingEvent,
+            portName: "",
+            orderId: "",
+            start: startTime,
+            duration: portCall.arrivingAt.getTime() - startTime,
+          }} />
+        );
+      }
+
+      startTime = portCall.arrivingAt.getTime()
 
       //Discharing order before loading
       data.orders.forEach(element => {
@@ -89,6 +107,8 @@ function MyComponent({ data }: { data: ApiData }) {
         )
         startTime = portCall.leavingAt.getTime();
       }
+    } else {
+      console.log("error finding portcall")
     }
   }
 
