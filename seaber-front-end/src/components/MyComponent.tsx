@@ -1,33 +1,13 @@
-import React from 'react'
+import React from 'react';
+import SingleEvent from './SingleEvent';
 import ApiData from '../interfaces/ship_interfaces'
 
-type Event = "Loading" | "Discharging" | "Idle" | "Laden" | "Ballast";
-
-const timeFormat = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
-
-interface Status {
-  event: Event,
-  portName: string,
-  orderId: string,
-  start: number,
-  duration: number,
-}
-
-function SingleEvent({ status }: { status: Status }) {
-  return (
-    <tr>
-      <td>{status.event}</td>
-      <td>{status.portName}</td>
-      <td>{status.orderId}</td>
-      <td>{new Date(status.start).toLocaleString('en-US')}</td>
-      <td>{new Date(status.start + status.duration).toLocaleString()}</td>
-      <td>{status.duration / 3600000}</td>
-    </tr>
-  )
-}
-
+type Event = 'Loading' | 'Discharging' | 'Idle' | 'Laden' | 'Ballast' | 'Error';
 
 function MyComponent({ data }: { data: ApiData }) {
+  const tableHead = {
+    backgroundColor: 'gray',
+  };
 
   let cargos = 0;
   let startTime = 0;
@@ -39,19 +19,19 @@ function MyComponent({ data }: { data: ApiData }) {
 
   for (let i = 1; i <= maxPortCalls; i++) {
     const portCall = data.portCalls.find(element => element.portCallId === i);
-    let portName = "";
+    let portName = '';
     if (portCall) {
       portName = portCall.portName;
 
       //Moving status
       if (startTime) {
-        const movingEvent: Event = cargos ? "Laden" : "Ballast";
+        const movingEvent: Event = cargos ? 'Laden' : 'Ballast';
 
         status.push(<SingleEvent status=
           {{
             event: movingEvent,
-            portName: "",
-            orderId: "",
+            portName: '',
+            orderId: '',
             start: startTime,
             duration: portCall.arrivingAt.getTime() - startTime,
           }} />
@@ -66,7 +46,7 @@ function MyComponent({ data }: { data: ApiData }) {
 
           status.push(<SingleEvent status=
             {{
-              event: "Discharging",
+              event: 'Discharging',
               portName: portName,
               orderId: element.orderId,
               start: startTime,
@@ -83,7 +63,7 @@ function MyComponent({ data }: { data: ApiData }) {
         if (element.loading.portCallId === i) {
           status.push(<SingleEvent status=
             {{
-              event: "Loading",
+              event: 'Loading',
               portName: portName,
               orderId: element.orderId,
               start: startTime,
@@ -98,9 +78,9 @@ function MyComponent({ data }: { data: ApiData }) {
       if (startTime < portCall.leavingAt.getTime()) {
         status.push(<SingleEvent status=
           {{
-            event: "Idle",
+            event: 'Idle',
             portName: portName,
-            orderId: "",
+            orderId: '',
             start: startTime,
             duration: portCall.leavingAt.getTime() - startTime,
           }} />
@@ -108,14 +88,23 @@ function MyComponent({ data }: { data: ApiData }) {
         startTime = portCall.leavingAt.getTime();
       }
     } else {
-      console.log("error finding portcall")
+      console.log('error finding portcall');
+      status.push(<SingleEvent status=
+        {{
+          event: 'Error',
+          portName: `Port id ${i} is missing`,
+          orderId: 'Error',
+          start: 0,
+          duration: 0,
+        }} />
+      )
     }
   }
 
   return (
-    <div>
+    <div className='Time Table'>
       <table>
-        <tr>
+        <tr style={tableHead}>
           <th>Event</th>
           <th>Port Name</th>
           <th>Order id</th>
