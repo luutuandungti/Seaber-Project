@@ -1,0 +1,12 @@
+What if a component receives inconsistent data?
+- Showing error message on screen for client
+
+What if the schedule has no port calls?
+What if the schedule has no orders?
+- Depend on the use case, message or warning could be show 
+
+How can the UI be improved?
+- Different color for different event. In the code, I implemented 
+  orange for Idle or Ballast as they can be consider "wasteful"
+
+And etc
