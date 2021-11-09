@@ -1,6 +1,5 @@
 
-- Write Tests
-- Optimization
+- Write more detail Tests
 
 -Format time (options for method toLocaleString)
   + DateTimeFormatOptions conflict

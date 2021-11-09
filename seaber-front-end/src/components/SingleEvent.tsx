@@ -17,11 +17,13 @@ function SingleEvent({ status }: { status: Status }) {
   };
 
   if (status.event === 'Idle' || status.event === 'Ballast') {
-    lineStyle.backgroundColor = 'red';
-  } else if (status.event === 'Loading') {
-    lineStyle.backgroundColor = 'green';
-  } else if (status.event === 'Discharging') {
     lineStyle.backgroundColor = 'orange';
+  } else if (status.event === 'Loading') {
+    lineStyle.backgroundColor = 'blue';
+  } else if (status.event === 'Discharging') {
+    lineStyle.backgroundColor = 'green';
+  } else if (status.event === 'Error') {
+    lineStyle.backgroundColor = 'red';
   }
   return (
     <tr style={lineStyle}>
