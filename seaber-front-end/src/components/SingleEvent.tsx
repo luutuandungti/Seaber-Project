@@ -13,18 +13,28 @@ export interface Status {
 function SingleEvent({ status }: { status: Status }) {
   const timeFormat = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
   const lineStyle = {
-    backgroundColor: 'blue'
+    backgroundColor: 'blue',
+    color: 'white'
   };
 
-  if (status.event === 'Idle' || status.event === 'Ballast') {
-    lineStyle.backgroundColor = 'orange';
-  } else if (status.event === 'Loading') {
-    lineStyle.backgroundColor = 'blue';
-  } else if (status.event === 'Discharging') {
-    lineStyle.backgroundColor = 'green';
-  } else if (status.event === 'Error') {
-    lineStyle.backgroundColor = 'red';
+  switch (status.event) {
+    case 'Idle':
+    case 'Ballast':
+      lineStyle.backgroundColor = 'orange';
+      break;
+    case 'Loading':
+      lineStyle.backgroundColor = 'blue';
+      break;
+    case 'Discharging':
+      lineStyle.backgroundColor = 'green';
+      break;
+    case 'Error':
+      lineStyle.backgroundColor = 'red';
+      break;
+    default:
+      break;
   }
+
   return (
     <tr style={lineStyle}>
       <td>{status.event}</td>
