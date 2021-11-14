@@ -4,3 +4,4 @@
 -Format time (options for method toLocaleString)
   + DateTimeFormatOptions conflict
 -Improving UI
+  + Better color to ease the eyes

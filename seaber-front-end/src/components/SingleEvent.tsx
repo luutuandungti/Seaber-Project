@@ -1,17 +1,7 @@
 import React from 'react';
-
-type Event = 'Loading' | 'Discharging' | 'Idle' | 'Laden' | 'Ballast' | 'Error';
-
-export interface Status {
-  event: Event,
-  portName: string,
-  orderId: string,
-  start: number,
-  duration: number,
-}
+import Status from '../interfaces/eventdata_interface';
 
 function SingleEvent({ status }: { status: Status }) {
-  const timeFormat = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
   const lineStyle = {
     backgroundColor: 'blue',
     color: 'white'
@@ -40,8 +30,14 @@ function SingleEvent({ status }: { status: Status }) {
       <td>{status.event}</td>
       <td>{status.portName}</td>
       <td>{status.orderId}</td>
-      <td>{new Date(status.start).toLocaleString()}</td>
-      <td>{new Date(status.start + status.duration).toLocaleString()}</td>
+      <td>{new Date(status.start)
+        .toLocaleTimeString(
+          'en-US',
+          { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour12: false })}</td>
+      <td>{new Date(status.start + status.duration)
+        .toLocaleTimeString(
+          'en-US',
+          { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour12: false })}</td>
       <td>{status.duration / 3600000}</td>
     </tr>
   )

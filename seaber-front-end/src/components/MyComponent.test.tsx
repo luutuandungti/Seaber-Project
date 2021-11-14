@@ -124,5 +124,5 @@ test('render content', () => {
     <MyComponent data={Example2} />
   )
 
-  expect(component.container).toHaveTextContent('Tallin')
+  expect(component.container).toHaveTextContent('Tallin');
 })
