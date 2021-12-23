@@ -7,7 +7,7 @@ function SingleEvent({ status }: { status: Status }) {
     color: 'white'
   };
 
-  const timeformat = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour12: false } as Intl.DateTimeFormatOptions;
+  const timeformat: Intl.DateTimeFormatOptions = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour12: false };
 
   const timeStart = new Date(status.start)
     .toLocaleTimeString(
