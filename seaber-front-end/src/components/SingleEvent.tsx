@@ -7,7 +7,8 @@ function SingleEvent({ status }: { status: Status }) {
     color: 'white'
   };
 
-  const timeformat: Intl.DateTimeFormatOptions = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour12: false };
+  const timeformat: Intl.DateTimeFormatOptions =
+    { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour12: false };
 
   const timeStart = new Date(status.start)
     .toLocaleTimeString(
@@ -18,6 +19,8 @@ function SingleEvent({ status }: { status: Status }) {
     .toLocaleTimeString(
       'en-US',
       timeformat);
+
+  const durationInHour = status.duration / 3600000;
 
 
   switch (status.event) {
@@ -45,7 +48,7 @@ function SingleEvent({ status }: { status: Status }) {
       <td>{status.orderId}</td>
       <td>{timeStart}</td>
       <td>{timeEnd}</td>
-      <td>{status.duration / 3600000}</td>
+      <td>{durationInHour}</td>
     </tr>
   )
 }
